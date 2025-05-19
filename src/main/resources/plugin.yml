@@ -1,0 +1,4 @@
+name: Journies
+version: '1.0-SNAPSHOT'
+main: trinary.stars.journies.Journies
+api-version: '1.21'
