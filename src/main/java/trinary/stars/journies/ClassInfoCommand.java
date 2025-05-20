@@ -16,7 +16,11 @@ public abstract class ClassInfoCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player p) {
             String className = classManager.getPlayerClass(p);
-            p.sendMessage("§6You are the " + className + "!");
+            if (!className.equals("None")) {
+                p.sendMessage("§6You are the " + className + "!");
+            } else {
+                p.sendMessage("§cYou Don't Have a Class Yet...");
+            }
         }
         return true;
     }
