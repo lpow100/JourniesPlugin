@@ -1,4 +1,19 @@
-name: Journies
-version: '1.0-SNAPSHOT'
+name: journies
+version: 1.0
 main: trinary.stars.journies.Journies
-api-version: '1.21'
+api-version: 1.20
+commands:
+  classInfo:
+    description: Tells you your class
+    usage: /classInfo
+  bal:
+    description: Tells you how much money you have
+    usage: /bal
+  pay:
+    description: Gives a player some amount of money
+    usage: /pay {amount}
+  setClass:
+    description: Sets a player's class.
+    usage: /setClass <player> <class>
+    permission: journies.admin.setClass
+    permission-message: §cYou don't have permission to use this command.

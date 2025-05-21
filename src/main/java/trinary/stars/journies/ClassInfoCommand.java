@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
-public abstract class ClassInfoCommand implements CommandExecutor {
+public class ClassInfoCommand implements CommandExecutor {
     private final ClassManager classManager;
 
     public ClassInfoCommand(ClassManager manager) {
