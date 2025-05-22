@@ -13,7 +13,7 @@ public final class Journies extends JavaPlugin {
         moneyManager = new MoneyManager(this);
         this.getCommand("pay").setExecutor(new PayCommand(moneyManager));
         this.getCommand("bal").setExecutor(new BalCommand(moneyManager));
-        getServer().getPluginManager().registerEvents(new ClassListener(classManager,moneyManager), this);
+        getServer().getPluginManager().registerEvents(new ClassListener(classManager,moneyManager,this), this);
     }
 
     @Override

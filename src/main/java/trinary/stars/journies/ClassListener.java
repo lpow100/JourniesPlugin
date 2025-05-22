@@ -1,5 +1,6 @@
 package trinary.stars.journies;
 
+import org.bukkit.plugin.Plugin;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -26,15 +27,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
+
+import java.util.Collection;
 
 
 public class ClassListener implements Listener {
     private final ClassManager classManager;
     private final MoneyManager moneyManager;
+    private final Plugin plugin;
 
-    public ClassListener(ClassManager manager, MoneyManager manager2) {
+    public ClassListener(ClassManager manager, MoneyManager manager2, Plugin plug) {
         this.classManager = manager;
         this.moneyManager = manager2;
+        this.plugin = plug;
     }
 
     @EventHandler
@@ -46,10 +55,10 @@ public class ClassListener implements Listener {
             moneyManager.setBalance(p, 20*1000); // Starting money
         }
         if (classManager.isClass(p, "warrior")) {
-            p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(24); // +2 hearts
-            p.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(p.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getValue()*0.9);
-            p.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(p.getAttribute(Attribute.GENERIC_ATTACK_SPEED).getValue()*0.9);
-            p.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(p.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()*1.25);
+            p.getAttribute(Attribute.MAX_ABSORPTION).setBaseValue(24); // +2 hearts
+            p.getAttribute(Attribute.MOVEMENT_SPEED).setBaseValue(p.getAttribute(Attribute.MOVEMENT_SPEED).getValue()*0.9);
+            p.getAttribute(Attribute.ATTACK_SPEED).setBaseValue(p.getAttribute(Attribute.ATTACK_SPEED).getValue()*0.9);
+            p.getAttribute(Attribute.ATTACK_DAMAGE).setBaseValue(p.getAttribute(Attribute.ATTACK_DAMAGE).getValue()*1.25);
         }
     }
 
@@ -81,7 +90,7 @@ public class ClassListener implements Listener {
     @EventHandler
     public void onMinerBreakOre(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        if (!classManager.getPlayerClass(player).equalsIgnoreCase("Miner")) return;
+        if (!classManager.isClass(player,"Miner")) return;
 
         Block block = event.getBlock();
         Material type = block.getType();
@@ -170,5 +179,41 @@ public class ClassListener implements Listener {
             // Example: maybe give speed or regen here
         }
     }
+
+    @EventHandler
+    public void onBrew(BrewEvent event) {
+        // Loop through results and boost effect levels if Alchemist
+        for (int i = 0; i < event.getContents().getSize(); i++) {
+            ItemStack item = event.getContents().getItem(i);
+            if (item == null || item.getType() != Material.POTION) continue;
+
+            ItemMeta meta = item.getItemMeta();
+            if (!(meta instanceof PotionMeta potionMeta)) continue;
+
+            PotionData data = potionMeta.getBasePotionData();
+            PotionType type = data.getType();
+
+            // Boost common potions (not extended or splash)
+            switch (type) {
+                case SWIFTNESS, STRENGTH, REGENERATION, POISON, HARMING -> {
+                    potionMeta.addCustomEffect(new PotionEffect(getEffectFromType(type), 20 * 60, 1), true); // Amplifier 1 = Level 2
+                    item.setItemMeta(potionMeta);
+                }
+                default -> {} // Don't alter other types
+            }
+        }
+    }
+
+    private PotionEffectType getEffectFromType(PotionType type) {
+        return switch (type) {
+            case SWIFTNESS -> PotionEffectType.SPEED;
+            case STRENGTH -> PotionEffectType.STRENGTH;
+            case REGENERATION -> PotionEffectType.REGENERATION;
+            case POISON -> PotionEffectType.POISON;
+            case HARMING -> PotionEffectType.INSTANT_DAMAGE;
+            default -> null;
+        };
+    }
+
 }
 

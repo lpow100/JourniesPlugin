@@ -1,0 +1,17 @@
+classes:
+  Warrior: ""
+  Entrepreneur: ""
+  Miner: "31e8aa80-bb5c-4a1e-b479-93baa131953a"
+  Alchemist: ""
+  Farmer: ""
+  Hunter: ""
+  Naturalist: ""
+  Rogue: "125cba89-f7fc-47be-bd3b-4b807b71a84b"
+  Blacksmith: ""
+  Trader: "dacb3ee2-823c-45f8-8141-d9c70245de92"
+  Diver: ""
+  Maker: ""
+  Enchanter: ""
+  Archer: ""
+money:
+  31e8aa80-bb5c-4a1e-b479-93baa131953a: 20000.0

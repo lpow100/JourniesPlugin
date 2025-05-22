@@ -18,8 +18,8 @@ public class ClassManager {
     }
 
     public boolean isValidClass(String target){
-        for (String className : plugin.getConfig().getConfigurationSection("classes").getKeys(false )) {
-            if (target.equals(className)){
+        for (String className : plugin.getConfig().getConfigurationSection("classes").getKeys(false)) {
+            if (target.equalsIgnoreCase(className)){
                 return true;
             }
         }
