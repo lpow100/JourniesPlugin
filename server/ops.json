@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "uuid": "31e8aa80-bb5c-4a1e-b479-93baa131953a",
+    "name": "trinarysystem",
+    "level": 4,
+    "bypassesPlayerLimit": false
+  }
+]

@@ -1,8 +1,8 @@
 classes:
   Warrior: ""
   Entrepreneur: ""
-  Miner: "31e8aa80-bb5c-4a1e-b479-93baa131953a"
-  Alchemist: ""
+  Miner: ""
+  Alchemist: "31e8aa80-bb5c-4a1e-b479-93baa131953a"
   Farmer: ""
   Hunter: ""
   Naturalist: ""
